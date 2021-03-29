@@ -1,7 +1,11 @@
 -- Adminer 4.8.0 MySQL 8.0.23 dump
 
+DROP DATABASE IF EXISTS `food`;
+CREATE DATABASE `food`;
+USE `food`;
+
 SET NAMES utf8;
-SET time_zone = '+00:00';
+SET time_zone = '-03:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
@@ -31,8 +35,9 @@ CREATE TABLE `plates_ingredients` (
   `unit` varchar(10) COLLATE sjis_bin NOT NULL,
   KEY `plate_id` (`plate_id`),
   KEY `ingredient_id` (`ingredient_id`),
-  CONSTRAINT `plates_ingredients_ibfk_1` FOREIGN KEY (`plate_id`) REFERENCES `plates` (`id`),
-  CONSTRAINT `plates_ingredients_ibfk_2` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`)
+  CONSTRAINT `plates_ingredients_plate_id` FOREIGN KEY (`plate_id`) REFERENCES `plates` (`id`),
+  CONSTRAINT `plates_ingredients_ingredient_id` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`),
+  UNIQUE KEY `plates_ingredients_plate_id_ingredient_id` (`plate_id`, `ingredient_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=sjis COLLATE=sjis_bin;
 
 
