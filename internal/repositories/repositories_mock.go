@@ -4,8 +4,8 @@ import "github.com/ariel17/food/internal/entities"
 
 type MockRepository struct {
 	Plates []entities.Plate
-	Steps []entities.Step
-	Err error
+	Steps  []entities.Step
+	Err    error
 }
 
 func (m *MockRepository) JoinPlatesSteps(_ []entities.Plate) ([]entities.Step, error) {

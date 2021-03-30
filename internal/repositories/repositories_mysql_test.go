@@ -47,7 +47,8 @@ func TestJoinPlatesIngredients(t *testing.T) {
 				eq.WillReturnRows(sqlmock.NewRows(columns).
 					AddRow("carne", 1000, "g").
 					AddRow("papa", 2000, "g").
-					AddRow("pollo", 500, "g"))
+					AddRow("pollo", 500, "g").
+					AddRow("palta", 1, nil))
 			} else {
 				eq.WillReturnError(errors.New("mocked error"))
 			}
@@ -59,10 +60,16 @@ func TestJoinPlatesIngredients(t *testing.T) {
 				assert.NotEmpty(t, steps)
 				assert.Equal(t, "carne", steps[0].Ingredient.Name)
 				assert.Equal(t, float64(1000), steps[0].Amount)
+				assert.Equal(t, "g", steps[0].Unit)
 				assert.Equal(t, "papa", steps[1].Ingredient.Name)
 				assert.Equal(t, float64(2000), steps[1].Amount)
+				assert.Equal(t, "g", steps[1].Unit)
 				assert.Equal(t, "pollo", steps[2].Ingredient.Name)
 				assert.Equal(t, float64(500), steps[2].Amount)
+				assert.Equal(t, "g", steps[2].Unit)
+				assert.Equal(t, "palta", steps[3].Ingredient.Name)
+				assert.Equal(t, float64(1), steps[3].Amount)
+				assert.Empty(t, steps[3].Unit)
 			} else {
 				assert.NotNil(t, err)
 				assert.Nil(t, steps)

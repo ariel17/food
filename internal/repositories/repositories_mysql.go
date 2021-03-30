@@ -35,12 +35,16 @@ func (r *repositoryMySQL) JoinPlatesSteps(plates []entities.Plate) ([]entities.S
 	steps := []entities.Step{}
 	for rows.Next() {
 		var (
-			name   string
-			amount float64
-			unit   string
+			name    string
+			amount  float64
+			rawUnit *string
 		)
-		if err := rows.Scan(&name, &amount, &unit); err != nil {
+		if err := rows.Scan(&name, &amount, &rawUnit); err != nil {
 			return nil, err
+		}
+		var unit string
+		if rawUnit != nil {
+			unit = *rawUnit
 		}
 		steps = append(steps, entities.Step{
 			Ingredient: entities.Ingredient{

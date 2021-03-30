@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestPlanForTheWeek(t *testing.T) {
+func TestCreatePlan(t *testing.T) {
 	testCases := []struct {
 		name         string
 		isSuccessful bool
@@ -32,13 +32,13 @@ func TestPlanForTheWeek(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			plates, err := s.PlanForTheWeek()
+			plates, err := s.CreatePlan()
 			if tc.isSuccessful {
 				assert.Nil(t, err)
 				assert.NotEmpty(t, plates)
 				assert.Equal(t, 7, len(plates))
 
-				plates2, err2 := s.PlanForTheWeek()
+				plates2, err2 := s.CreatePlan()
 				assert.Nil(t, err2)
 				assert.NotEmpty(t, plates2)
 				assert.Equal(t, 7, len(plates2))

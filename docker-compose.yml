@@ -9,6 +9,8 @@ services:
       MYSQL_ROOT_PASSWORD: example
     volumes:
       - "./scripts/mysql-init.sql:/docker-entrypoint-initdb.d/1.sql"
+    ports:
+      - 3306:3306
 
   adminer:
     image: adminer
