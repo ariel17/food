@@ -6,11 +6,23 @@ import (
 	"strings"
 )
 
-type RepositoryMySQL struct {
+type Repository interface {
+	JoinPlatesSteps(plates []entities.Plate) ([]entities.Step, error)
+	GetStepsForPlate(plate entities.Plate) ([]entities.Step, error)
+	GetAllPlates() ([]entities.Plate, error)
+}
+
+func NewRepositoryMySQL(db *sql.DB) Repository {
+	return &repositoryMySQL{
+		db: db,
+	}
+}
+
+type repositoryMySQL struct {
 	db *sql.DB
 }
 
-func (r *RepositoryMySQL) JoinPlatesSteps(plates []entities.Plate) ([]entities.Step, error) {
+func (r *repositoryMySQL) JoinPlatesSteps(plates []entities.Plate) ([]entities.Step, error) {
 	ids := []interface{}{}
 	for _, plate := range plates {
 		ids = append(ids, plate.ID)
@@ -41,7 +53,7 @@ func (r *RepositoryMySQL) JoinPlatesSteps(plates []entities.Plate) ([]entities.S
 	return steps, nil
 }
 
-func (r *RepositoryMySQL) GetStepsForPlate(plate entities.Plate) ([]entities.Step, error) {
+func (r *repositoryMySQL) GetStepsForPlate(plate entities.Plate) ([]entities.Step, error) {
 	rows, err := r.db.Query("SELECT ingredient_id, amount, unit FROM plates_ingredients WHERE plate_id = ?", plate.ID)
 	if err != nil {
 		return nil, err
@@ -81,7 +93,7 @@ func (r *RepositoryMySQL) GetStepsForPlate(plate entities.Plate) ([]entities.Ste
 	return steps, nil
 }
 
-func (r *RepositoryMySQL) GetAllPlates() ([]entities.Plate, error) {
+func (r *repositoryMySQL) GetAllPlates() ([]entities.Plate, error) {
 	rows, err := r.db.Query("SELECT id, name, only_on FROM plates")
 	if err != nil {
 		return nil, err

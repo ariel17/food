@@ -26,7 +26,7 @@ func TestJoinPlatesIngredients(t *testing.T) {
 		},
 	}
 
-	r := RepositoryMySQL{
+	r := repositoryMySQL{
 		db: db,
 	}
 
@@ -81,7 +81,7 @@ func TestGetStepsForPlate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	r := RepositoryMySQL{
+	r := repositoryMySQL{
 		db: db,
 	}
 	testCases := []struct {
@@ -136,7 +136,7 @@ func TestGetAllPlates(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	r := RepositoryMySQL{
+	r := repositoryMySQL{
 		db: db,
 	}
 
