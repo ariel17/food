@@ -60,8 +60,8 @@ func (r *RepositoryMySQL) GetStepsForPlate(plate entities.Plate) ([]entities.Ste
 			Ingredient: entities.Ingredient{
 				ID: ingredientID,
 			},
-			Amount:     amount,
-			Unit:       unit,
+			Amount: amount,
+			Unit:   unit,
 		})
 	}
 	for i, step := range steps {
@@ -70,7 +70,7 @@ func (r *RepositoryMySQL) GetStepsForPlate(plate entities.Plate) ([]entities.Ste
 			return nil, err
 		}
 		for rows.Next() {
-			var name, itype  string
+			var name, itype string
 			if err := rows.Scan(&name, &itype); err != nil {
 				return nil, err
 			}
@@ -79,4 +79,32 @@ func (r *RepositoryMySQL) GetStepsForPlate(plate entities.Plate) ([]entities.Ste
 		}
 	}
 	return steps, nil
+}
+
+func (r *RepositoryMySQL) GetAllPlates() ([]entities.Plate, error) {
+	rows, err := r.db.Query("SELECT id, name, only_on FROM plates")
+	if err != nil {
+		return nil, err
+	}
+	plates := []entities.Plate{}
+	for rows.Next() {
+		var (
+			id        int
+			name      string
+			rawOnlyOn *string
+		)
+		if err := rows.Scan(&id, &name, &rawOnlyOn); err != nil {
+			return nil, err
+		}
+		var onlyOn string
+		if rawOnlyOn != nil {
+			onlyOn = *rawOnlyOn
+		}
+		plates = append(plates, entities.Plate{
+			ID:     id,
+			Name:   name,
+			OnlyOn: onlyOn,
+		})
+	}
+	return plates, nil
 }

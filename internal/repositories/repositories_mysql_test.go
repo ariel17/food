@@ -129,34 +129,6 @@ func TestGetStepsForPlate(t *testing.T) {
 	}
 }
 
-func (r *RepositoryMySQL) GetAllPlates() ([]entities.Plate, error) {
-	rows, err := r.db.Query("SELECT id, name, only_on FROM plates")
-	if err != nil {
-		return nil, err
-	}
-	plates := []entities.Plate{}
-	for rows.Next() {
-		var (
-			id        int
-			name      string
-			rawOnlyOn *string
-		)
-		if err := rows.Scan(&id, &name, &rawOnlyOn); err != nil {
-			return nil, err
-		}
-		var onlyOn string
-		if rawOnlyOn != nil {
-			onlyOn = *rawOnlyOn
-		}
-		plates = append(plates, entities.Plate{
-			ID:     id,
-			Name:   name,
-			OnlyOn: onlyOn,
-		})
-	}
-	return plates, nil
-}
-
 func TestGetAllPlates(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	defer db.Close()
