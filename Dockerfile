@@ -17,9 +17,10 @@ ENV DATABASE_USER=username
 ENV DATABASE_PASS=password
 ENV DATABASE_NAME=food
 
-ENV SMTP_RECIPIENTS=r1@example.com,r2@example.com
-ENV SMTP_FROM=sender@example.com
-ENV SMTP_USER=username
-ENV SMTP_PASS=password
+ENV EMAIL_HOST=smtp.example.com
+ENV EMAIL_PORT=587
+ENV EMAIL_ACCOUNT=sender@example.com
+ENV EMAIL_RECIPIENTS=r1@example.com,r2@example.com
+ENV EMAIL_PASS=password
 
-CMD ["./food", "-plates"]
+CMD ["./food", "-plates", "-plan"]
