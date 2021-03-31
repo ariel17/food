@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"github.com/ariel17/food/configs"
 	"github.com/ariel17/food/internal/repositories"
 	"github.com/ariel17/food/internal/services"
 	"os"
@@ -11,7 +12,7 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("mysql", "root:example@/food")
+	db, err := sql.Open("mysql", configs.GetDatabaseConfig().String())
 	if err != nil {
 		panic(err)
 	}
