@@ -3,7 +3,6 @@ package configs
 import (
 	"fmt"
 	"os"
-	"strconv"
 )
 
 type DatabaseConfig struct {
@@ -22,14 +21,6 @@ var databaseConfig DatabaseConfig
 
 func GetDatabaseConfig() DatabaseConfig {
 	return databaseConfig
-}
-
-func getInt(key string) int {
-	value, err := strconv.Atoi(os.Getenv(key))
-	if err != nil {
-		panic(err)
-	}
-	return value
 }
 
 func init() {

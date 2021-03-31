@@ -3,18 +3,19 @@ package services
 import (
 	"fmt"
 	"github.com/ariel17/food/internal/entities"
+	"io"
 	"strings"
 )
 
 const (
 	tabSize = 8
-	kilo = 1000
+	kilo    = 1000
 )
 
 type Printer interface {
-	PrintPlates(plates []entities.Plate)
-	PrintPlan(plan []entities.Plate)
-	PrintShopList(items []entities.Step)
+	PrintPlates(w io.Writer, plates []entities.Plate)
+	PrintPlan(w io.Writer, plan []entities.Plate)
+	PrintShopList(w io.Writer, items []entities.Step)
 }
 
 func NewPrinter() Printer {
@@ -24,32 +25,32 @@ func NewPrinter() Printer {
 type printer struct {
 }
 
-func (p *printer) PrintPlates(plates []entities.Plate) {
-	fmt.Println("")
-	fmt.Println("Name")
-	fmt.Println("----")
+func (p *printer) PrintPlates(w io.Writer, plates []entities.Plate) {
+	fmt.Fprintln(w, "")
+	fmt.Fprintln(w, "Name")
+	fmt.Fprintln(w, "----")
 	for _, plate := range plates {
-		fmt.Println(fmt.Sprintf("* %s", plate.Name))
+		fmt.Fprintf(w, "* %s\n", plate.Name)
 	}
 }
 
-func (p *printer) PrintPlan(plan []entities.Plate) {
-	fmt.Println("")
-	fmt.Println("Day\t\tName")
-	fmt.Println("---\t\t----")
+func (p *printer) PrintPlan(w io.Writer, plan []entities.Plate) {
+	fmt.Fprintln(w, "")
+	fmt.Fprintln(w, "Day\t\tName")
+	fmt.Fprintln(w, "---\t\t----")
 	for day, plate := range plan {
-		fmt.Println(fmt.Sprintf("%d\t\t%s", day+1, plate.Name))
+		fmt.Fprintf(w, "%d\t\t%s\n", day+1, plate.Name)
 	}
 }
 
-func (p *printer) PrintShopList(items []entities.Step) {
-	fmt.Println("")
-	fmt.Println("Item\t\t\tAmount\t\tUnit")
-	fmt.Println("----\t\t\t------\t\t----")
+func (p *printer) PrintShopList(w io.Writer, items []entities.Step) {
+	fmt.Fprintln(w, "")
+	fmt.Fprintln(w, "Item\t\t\tAmount\t\tUnit")
+	fmt.Fprintln(w, "----\t\t\t------\t\t----")
 	for _, item := range items {
 		tabs := generateTabs(item.Ingredient.Name, 3)
 		amount, unit := formatAmountAndUnit(item.Amount, item.Unit)
-		fmt.Println(fmt.Sprintf("%s"+tabs+"%.2f\t\t%s", item.Ingredient.Name, amount, unit))
+		fmt.Fprintf(w, "%s"+tabs+"%.2f\t\t%s\n", item.Ingredient.Name, amount, unit)
 	}
 }
 
@@ -61,7 +62,7 @@ func generateTabs(s string, expected int) string {
 func formatAmountAndUnit(amount float64, unit string) (float64, string) {
 	newAmount := amount / kilo
 	if newAmount >= 1 {
-		return newAmount, "K"+unit
+		return newAmount, "K" + unit
 	}
 	return amount, unit
 }
