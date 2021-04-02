@@ -58,19 +58,20 @@ CREATE TABLE `plates` (
   `name` varchar(50) CHARACTER SET sjis COLLATE sjis_bin NOT NULL,
   `type` varchar(15) CHARACTER SET sjis COLLATE sjis_bin NOT NULL,
   `only_on` varchar(15) CHARACTER SET sjis COLLATE sjis_bin DEFAULT NULL,
+  `needs_mixing` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=sjis COLLATE=sjis_bin;
 
-INSERT INTO `plates` (`id`, `name`, `type`, `only_on`) VALUES
-(1,	'Milanesa de pescado',	'main',	NULL),
-(2,	'Milanesa de carne',	'main',	NULL),
-(3,	'Pastel de papa y carne',	'main',	NULL),
-(4,	'Milanesa de pollo',	'main',	NULL),
-(5,	'Asado',	'main',	NULL),
-(6,	'Pizza',	'main',	NULL),
-(7,	'Omellete',	'main',	NULL),
-(8,	'Guiso de arroz con carne',	'main',	NULL),
-(9,	'Tortilla de papa',	'main',	NULL);
+INSERT INTO `plates` (`id`, `name`, `type`, `only_on`, `needs_mixing`) VALUES
+(1,	'Milanesa de pescado',	'main',	NULL,	0),
+(2,	'Milanesa de carne',	'main',	NULL,	0),
+(3,	'Pastel de papa y carne',	'main',	NULL,	0),
+(4,	'Milanesa de pollo',	'main',	NULL,	0),
+(5,	'Asado',	'main',	NULL,	0),
+(6,	'Pizza',	'main',	NULL,	0),
+(7,	'Omellete',	'main',	NULL,	0),
+(8,	'Guiso de arroz con carne',	'main',	NULL,	0),
+(9,	'Tortilla de papa',	'main',	NULL,	0);
 
 DROP TABLE IF EXISTS `plates_ingredients`;
 CREATE TABLE `plates_ingredients` (
@@ -137,4 +138,4 @@ INSERT INTO `plates_ingredients` (`plate_id`, `ingredient_id`, `amount`, `unit`)
 (9,	7,	1000,	'g'),
 (9,	24,	4,	NULL);
 
--- 2021-03-29 19:11:37
+-- 2021-04-02 05:04:28

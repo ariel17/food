@@ -10,6 +10,7 @@ type Plate struct {
 	ID     int    `json:"id"`
 	Name   string `json:"name"`
 	OnlyOn string `json:"only_on"`
+	NeedsMixing bool `json:"needs_mixing"`
 }
 
 type Step struct {

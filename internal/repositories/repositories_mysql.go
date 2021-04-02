@@ -98,7 +98,7 @@ func (r *repositoryMySQL) GetStepsForPlate(plate entities.Plate) ([]entities.Ste
 }
 
 func (r *repositoryMySQL) GetAllPlates() ([]entities.Plate, error) {
-	rows, err := r.db.Query("SELECT id, name, only_on FROM plates")
+	rows, err := r.db.Query("SELECT id, name, only_on, needs_mixing FROM plates")
 	if err != nil {
 		return nil, err
 	}
@@ -108,8 +108,9 @@ func (r *repositoryMySQL) GetAllPlates() ([]entities.Plate, error) {
 			id        int
 			name      string
 			rawOnlyOn *string
+			needsMixing bool
 		)
-		if err := rows.Scan(&id, &name, &rawOnlyOn); err != nil {
+		if err := rows.Scan(&id, &name, &rawOnlyOn, &needsMixing); err != nil {
 			return nil, err
 		}
 		var onlyOn string
@@ -120,6 +121,7 @@ func (r *repositoryMySQL) GetAllPlates() ([]entities.Plate, error) {
 			ID:     id,
 			Name:   name,
 			OnlyOn: onlyOn,
+			NeedsMixing: needsMixing,
 		})
 	}
 	return plates, nil
