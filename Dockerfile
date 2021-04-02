@@ -9,7 +9,9 @@ RUN GOOS=linux GOARCH=amd64 go build -o food .
 
 FROM alpine:latest
 WORKDIR /app
-COPY --from=build /build/food .
+COPY --from=build /build/food /build/internal/presenters/email/*.html .
+
+ENV ENVIRONMENT=production
 
 ENV DATABASE_HOST=localhost
 ENV DATABASE_PORT=3306
