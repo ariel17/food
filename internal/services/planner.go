@@ -35,7 +35,7 @@ func (s *service) CreatePlan() ([]entities.Plate, error) {
 	if len(plates) < DaysOfWeek {
 		return nil, errors.New("not enough plates to plan for the whole week")
 	}
-	plan := []entities.Plate{}
+	plan := make([]entities.Plate, 0)
 	for day := 0; day < DaysOfWeek; day++ {
 		v := rand.Intn(len(plates))
 		plan = append(plan, plates[v])

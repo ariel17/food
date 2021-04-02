@@ -26,31 +26,31 @@ type printer struct {
 }
 
 func (p *printer) PrintPlates(w io.Writer, plates []entities.Plate) {
-	fmt.Fprintln(w, "")
-	fmt.Fprintln(w, "Name")
-	fmt.Fprintln(w, "----")
+	_, _ = fmt.Fprintln(w, "")
+	_, _ = fmt.Fprintln(w, "Name")
+	_, _ = fmt.Fprintln(w, "----")
 	for _, plate := range plates {
-		fmt.Fprintf(w, "* %s\n", plate.Name)
+		_, _ = fmt.Fprintf(w, "* %s\n", plate.Name)
 	}
 }
 
 func (p *printer) PrintPlan(w io.Writer, plan []entities.Plate) {
-	fmt.Fprintln(w, "")
-	fmt.Fprintln(w, "Day\t\tName")
-	fmt.Fprintln(w, "---\t\t----")
+	_, _ = fmt.Fprintln(w, "")
+	_, _ = fmt.Fprintln(w, "Day\t\tName")
+	_, _ = fmt.Fprintln(w, "---\t\t----")
 	for day, plate := range plan {
-		fmt.Fprintf(w, "%d\t\t%s\n", day+1, plate.Name)
+		_, _ = fmt.Fprintf(w, "%d\t\t%s\n", day+1, plate.Name)
 	}
 }
 
 func (p *printer) PrintShopList(w io.Writer, items []entities.Step) {
-	fmt.Fprintln(w, "")
-	fmt.Fprintln(w, "Item\t\t\tAmount\t\tUnit")
-	fmt.Fprintln(w, "----\t\t\t------\t\t----")
+	_, _ = fmt.Fprintln(w, "")
+	_, _ = fmt.Fprintln(w, "Item\t\t\tAmount\t\tUnit")
+	_, _ = fmt.Fprintln(w, "----\t\t\t------\t\t----")
 	for _, item := range items {
 		tabs := generateTabs(item.Ingredient.Name, 3)
 		amount, unit := formatAmountAndUnit(item.Amount, item.Unit)
-		fmt.Fprintf(w, "%s"+tabs+"%.2f\t\t%s\n", item.Ingredient.Name, amount, unit)
+		_, _ = fmt.Fprintf(w, "%s"+tabs+"%.2f\t\t%s\n", item.Ingredient.Name, amount, unit)
 	}
 }
 

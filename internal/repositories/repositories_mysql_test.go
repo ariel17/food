@@ -10,7 +10,6 @@ import (
 
 func TestJoinPlatesIngredients(t *testing.T) {
 	db, mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
-	defer db.Close()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -83,7 +82,6 @@ func TestGetStepsForPlate(t *testing.T) {
 		ID: 1,
 	}
 	db, mock, err := sqlmock.New()
-	defer db.Close()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -138,7 +136,6 @@ func TestGetStepsForPlate(t *testing.T) {
 
 func TestGetAllPlates(t *testing.T) {
 	db, mock, err := sqlmock.New()
-	defer db.Close()
 	if err != nil {
 		t.Fatal(err)
 	}

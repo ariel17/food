@@ -27,7 +27,10 @@ func (s *sender) Send(plan []entities.Plate, items []entities.Step) error {
 	config := configs.GetEmailConfig()
 	buffer := bytes.NewBufferString("")
 	s.printer.PrintPlan(buffer, plan)
-	fmt.Fprintln(buffer, "")
+	_, err := fmt.Fprintln(buffer, "")
+	if err != nil {
+		return err
+	}
 	s.printer.PrintShopList(buffer, items)
 	return smtp.SendMail(config.String(), config.Auth, config.Account, config.Recipients, buffer.Bytes())
 }

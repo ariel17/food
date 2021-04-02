@@ -19,7 +19,7 @@ func main() {
 		panic(err)
 	}
 
-	platesFlag := flag.Bool("plates", false, "Shows plates availables.")
+	platesFlag := flag.Bool("plates", false, "Shows plates available.")
 	planFlag := flag.Bool("plan", false, "Creates a new plan.")
 	helpFlag := flag.Bool("help", false, "Shows help.")
 	flag.Parse()

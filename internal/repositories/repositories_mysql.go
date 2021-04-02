@@ -23,16 +23,16 @@ type repositoryMySQL struct {
 }
 
 func (r *repositoryMySQL) JoinPlatesSteps(plates []entities.Plate) ([]entities.Step, error) {
-	ids := []interface{}{}
+	ids := make([]interface{}, 0)
 	for _, plate := range plates {
 		ids = append(ids, plate.ID)
 	}
-	sql := "SELECT i.name, SUM(pi.amount), pi.unit FROM plates_ingredients pi INNER JOIN ingredients i ON (i.id=pi.ingredient_id) WHERE pi.plate_id IN (?" + strings.Repeat(",?", len(plates)-1) + ") GROUP BY i.name, pi.unit"
-	var rows, err = r.db.Query(sql, ids...)
+	query := "SELECT i.name, SUM(pi.amount), pi.unit FROM plates_ingredients pi INNER JOIN ingredients i ON (i.id=pi.ingredient_id) WHERE pi.plate_id IN (?" + strings.Repeat(",?", len(plates)-1) + ") GROUP BY i.name, pi.unit"
+	var rows, err = r.db.Query(query, ids...)
 	if err != nil {
 		return nil, err
 	}
-	steps := []entities.Step{}
+	steps := make([]entities.Step, 0)
 	for rows.Next() {
 		var (
 			name    string
@@ -62,7 +62,7 @@ func (r *repositoryMySQL) GetStepsForPlate(plate entities.Plate) ([]entities.Ste
 	if err != nil {
 		return nil, err
 	}
-	steps := []entities.Step{}
+	steps := make([]entities.Step, 0)
 	for rows.Next() {
 		var (
 			ingredientID int
@@ -86,12 +86,12 @@ func (r *repositoryMySQL) GetStepsForPlate(plate entities.Plate) ([]entities.Ste
 			return nil, err
 		}
 		for rows.Next() {
-			var name, itype string
-			if err := rows.Scan(&name, &itype); err != nil {
+			var name, iType string
+			if err := rows.Scan(&name, &iType); err != nil {
 				return nil, err
 			}
 			steps[i].Ingredient.Name = name
-			steps[i].Ingredient.Type = itype
+			steps[i].Ingredient.Type = iType
 		}
 	}
 	return steps, nil
@@ -102,7 +102,7 @@ func (r *repositoryMySQL) GetAllPlates() ([]entities.Plate, error) {
 	if err != nil {
 		return nil, err
 	}
-	plates := []entities.Plate{}
+	plates := make([]entities.Plate, 0)
 	for rows.Next() {
 		var (
 			id        int
