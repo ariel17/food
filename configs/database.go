@@ -24,11 +24,13 @@ func GetDatabaseConfig() DatabaseConfig {
 }
 
 func init() {
-	databaseConfig = DatabaseConfig{
-		host:     os.Getenv("DATABASE_HOST"),
-		port:     getInt("DATABASE_PORT"),
-		username: os.Getenv("DATABASE_USER"),
-		password: os.Getenv("DATABASE_PASS"),
-		name:     os.Getenv("DATABASE_NAME"),
+	if IsProduction() {
+		databaseConfig = DatabaseConfig{
+			host:     os.Getenv("DATABASE_HOST"),
+			port:     getInt("DATABASE_PORT"),
+			username: os.Getenv("DATABASE_USER"),
+			password: os.Getenv("DATABASE_PASS"),
+			name:     os.Getenv("DATABASE_NAME"),
+		}
 	}
 }
