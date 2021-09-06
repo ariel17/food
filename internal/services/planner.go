@@ -2,10 +2,11 @@ package services
 
 import (
 	"errors"
-	"github.com/ariel17/food/internal/entities"
-	"github.com/ariel17/food/internal/repositories"
 	"math/rand"
 	"time"
+
+	"github.com/ariel17/food/internal/entities"
+	"github.com/ariel17/food/internal/repositories"
 )
 
 const (

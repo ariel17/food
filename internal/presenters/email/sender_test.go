@@ -1,11 +1,13 @@
 package email
 
 import (
-	"github.com/ariel17/food/internal/entities"
-	"github.com/ariel17/food/internal/services"
-	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	"github.com/ariel17/food/internal/entities"
+	"github.com/ariel17/food/internal/services"
 )
 
 func TestSender_Render(t *testing.T) {
@@ -13,7 +15,8 @@ func TestSender_Render(t *testing.T) {
 	s := sender{
 		printer: printer,
 	}
-	html := string(s.render("holis"))
+	b, _ := s.render("holis")
+	html := string(b)
 	expected := strings.Join([]string{
 		"Subject: This week's food plan",
 		"MIME-Version: 1.0",

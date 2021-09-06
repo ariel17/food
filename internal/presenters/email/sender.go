@@ -3,14 +3,16 @@ package email
 import (
 	"bytes"
 	"fmt"
-	"github.com/ariel17/food/configs"
-	"github.com/ariel17/food/internal/entities"
-	"github.com/ariel17/food/internal/services"
 	"html/template"
 	"net/smtp"
 	"os"
+
+	"github.com/ariel17/food/configs"
+	"github.com/ariel17/food/internal/entities"
+	"github.com/ariel17/food/internal/services"
 )
 
+// Sender takes the food plan, items involved and sends it by email to
 type Sender interface {
 	Send(plan []entities.Plate, items []entities.Step) error
 }
@@ -27,7 +29,10 @@ type sender struct {
 
 func (s *sender) Send(plan []entities.Plate, items []entities.Step) error {
 	config := configs.GetEmailConfig()
-	message := s.render(s.content(plan, items))
+	message, err := s.render(s.content(plan, items))
+	if err != nil {
+		return err
+	}
 	return smtp.SendMail(config.String(), config.Auth, config.Account, config.Recipients, message)
 }
 
@@ -39,10 +44,10 @@ func (s *sender) content(plan []entities.Plate, items []entities.Step) string {
 	return buffer.String()
 }
 
-func (s *sender) render(content string) []byte {
+func (s *sender) render(content string) ([]byte, error) {
 	workingDir, _ := os.Getwd()
 	template := template.Must(template.ParseFiles(workingDir + "/template.html"))
 	buffer := bytes.NewBufferString("")
-	template.Execute(buffer, content)
-	return buffer.Bytes()
+	err := template.Execute(buffer, content)
+	return buffer.Bytes(), err
 }
