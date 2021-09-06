@@ -5,8 +5,8 @@ services:
   db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
-    environment:
-      MYSQL_ROOT_PASSWORD: example
+    env_file:
+      - .db.env
     volumes:
       - "./scripts/mysql-init.sql:/docker-entrypoint-initdb.d/1.sql"
     ports:
@@ -14,11 +14,6 @@ services:
 
   food:
     build: .
-    environment:
-      - DATABASE_HOST=db
-      - DATABASE_PORT=3306
-      - DATABASE_USER=root
-      - DATABASE_PASS=example
     env_file:
       - .food.env
     links:
