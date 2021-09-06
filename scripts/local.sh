@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source .food.env
+source ./build/package/.food.env
 
 DATABASE_HOST=localhost
 
