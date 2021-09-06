@@ -19,6 +19,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer func() {
+		if err := db.Close(); err != nil {
+			panic(err)
+		}
+	}()
 
 	platesFlag := flag.Bool("plates", false, "Shows plates available.")
 	planFlag := flag.Bool("plan", false, "Creates a new plan.")
