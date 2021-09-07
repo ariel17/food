@@ -8,9 +8,13 @@ services:
     env_file:
       - .db.env
     volumes:
-      - "../../scripts/mysql-init.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./scripts/mysql-init.sql:/docker-entrypoint-initdb.d/1.sql"
     ports:
       - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD']
+      timeout: 20s
+      retries: 10
 
   food:
     build: .

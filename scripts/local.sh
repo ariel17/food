@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./build/package/.food.env
+source .food.env
 
 DATABASE_HOST=127.0.0.1 DATABASE_PORT=$DATABASE_PORT \
   DATABASE_USER=$DATABASE_USER DATABASE_PASS=$DATABASE_PASS \

@@ -9,7 +9,7 @@ RUN GOOS=linux GOARCH=amd64 go build -o food .
 
 FROM alpine:latest
 WORKDIR /app
-COPY --from=build /build/food /build/internal/presenters/email/*.html .
+COPY --from=build /build/food /build/internal/clients/email/*.html .
 
 ENV ENVIRONMENT=production
 
