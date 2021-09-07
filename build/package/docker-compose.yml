@@ -8,7 +8,7 @@ services:
     env_file:
       - .db.env
     volumes:
-      - "./scripts/mysql-init.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "../../scripts/mysql-init.sql:/docker-entrypoint-initdb.d/1.sql"
     ports:
       - 3306:3306
 
@@ -28,4 +28,3 @@ services:
       - 8080:8080
     depends_on:
       - db
-
