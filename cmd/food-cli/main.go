@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/ariel17/food/configs"
-	"github.com/ariel17/food/internal/presenters/email"
+	"github.com/ariel17/food/internal/clients/email"
 	"github.com/ariel17/food/internal/repositories"
 	"github.com/ariel17/food/internal/services"
 
