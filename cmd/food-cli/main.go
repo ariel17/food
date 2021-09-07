@@ -29,6 +29,7 @@ func main() {
 	planFlag := flag.Bool("plan", false, "Creates a new plan.")
 	emailFlag := flag.Bool("email", false, "Enables email sender.")
 	helpFlag := flag.Bool("help", false, "Shows help.")
+	configFlag := flag.Bool("config", false, "Shows actual configuration.")
 	flag.Parse()
 
 	if *helpFlag {
@@ -36,8 +37,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	repository := repositories.NewRepositoryMySQL(db)
 	printer := services.NewPrinter()
+	if *configFlag{
+		printer.PrintConfiguration(os.Stdout)
+		os.Exit(1)
+	}
+
+	repository := repositories.NewRepositoryMySQL(db)
 
 	if *platesFlag {
 		plates, err := repository.GetAllPlates()

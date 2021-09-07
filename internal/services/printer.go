@@ -2,9 +2,11 @@ package services
 
 import (
 	"fmt"
-	"github.com/ariel17/food/internal/entities"
 	"io"
 	"strings"
+
+	"github.com/ariel17/food/configs"
+	"github.com/ariel17/food/internal/entities"
 )
 
 const (
@@ -16,6 +18,7 @@ type Printer interface {
 	PrintPlates(w io.Writer, plates []entities.Plate)
 	PrintPlan(w io.Writer, plan []entities.Plate)
 	PrintShopList(w io.Writer, items []entities.Step)
+	PrintConfiguration(w io.Writer)
 }
 
 func NewPrinter() Printer {
@@ -52,6 +55,14 @@ func (p *printer) PrintShopList(w io.Writer, items []entities.Step) {
 		amount, unit := formatAmountAndUnit(item.Amount, item.Unit)
 		_, _ = fmt.Fprintf(w, "%s"+tabs+"%.2f\t\t%s\n", item.Ingredient.Name, amount, unit)
 	}
+}
+
+func (p *printer) PrintConfiguration(w io.Writer) {
+	_, _ = fmt.Fprintln(w, "")
+	_, _ = fmt.Fprintln(w, "Database connection string:", configs.GetDatabaseConfig().String())
+	ec := configs.GetEmailConfig()
+	_, _ = fmt.Fprintln(w, "Email host:", ec.String())
+	_, _ = fmt.Fprintln(w, "Email recipients:", ec.Recipients)
 }
 
 func generateTabs(s string, expected int) string {
