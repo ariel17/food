@@ -27,15 +27,14 @@ func GetEmailConfig() EmailConfig {
 
 func init() {
 	emailConfig = EmailConfig{}
-	if IsProduction() {
-		host := os.Getenv("EMAIL_HOST")
-		account := os.Getenv("EMAIL_ACCOUNT")
-		password := os.Getenv("EMAIL_PASS")
+	host := os.Getenv("EMAIL_HOST")
+	account := os.Getenv("EMAIL_ACCOUNT")
+	password := os.Getenv("EMAIL_PASS")
 
-		emailConfig.Host = host
-		emailConfig.Port = getInt("EMAIL_PORT")
-		emailConfig.Account = account
-		emailConfig.Recipients = strings.Split(os.Getenv("EMAIL_RECIPIENTS"), ",")
-		emailConfig.Auth = smtp.PlainAuth("", account, password, host)
-	}
+	emailConfig.Host = host
+	emailConfig.Port = getInt("EMAIL_PORT")
+	emailConfig.Account = account
+	emailConfig.Recipients = strings.Split(os.Getenv("EMAIL_RECIPIENTS"), ",")
+	emailConfig.Auth = smtp.PlainAuth("", account, password, host)
+
 }
