@@ -8,7 +8,7 @@ import (
 func getInt(key string) int {
 	value, err := strconv.Atoi(os.Getenv(key))
 	if err != nil {
-		panic(err)
+		return 0
 	}
 	return value
 }
