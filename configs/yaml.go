@@ -2,7 +2,7 @@ package configs
 
 import "os"
 
-const defaultYAMLPath = "recipes.yaml"
+const defaultYAMLPath = "plates.yaml"
 
 var yamlPath string
 
