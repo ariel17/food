@@ -19,3 +19,6 @@ func (m *MockRepository) GetStepsForPlate(_ entities.Plate) ([]entities.Step, er
 func (m *MockRepository) GetAllPlates() ([]entities.Plate, error) {
 	return m.Plates, m.Err
 }
+
+func (m *MockRepository) Close() {
+}
