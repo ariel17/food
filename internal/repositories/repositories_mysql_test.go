@@ -2,13 +2,15 @@ package repositories
 
 import (
 	"errors"
-	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/ariel17/food/internal/entities"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/stretchr/testify/assert"
+
+	"github.com/ariel17/food/internal/entities"
 )
 
-func TestJoinPlatesIngredients(t *testing.T) {
+func TestJoinPlatesIngredientsMySQL(t *testing.T) {
 	db, mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
 	if err != nil {
 		t.Fatal(err)
@@ -77,7 +79,7 @@ func TestJoinPlatesIngredients(t *testing.T) {
 	}
 }
 
-func TestGetStepsForPlate(t *testing.T) {
+func TestGetStepsForPlateMySQL(t *testing.T) {
 	p := entities.Plate{
 		ID: 1,
 	}
@@ -134,7 +136,7 @@ func TestGetStepsForPlate(t *testing.T) {
 	}
 }
 
-func TestGetAllPlates(t *testing.T) {
+func TestGetAllPlatesMySQL(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatal(err)
