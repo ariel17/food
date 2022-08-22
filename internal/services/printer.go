@@ -18,7 +18,7 @@ type Printer interface {
 	PrintPlates(w io.Writer, plates []entities.Plate)
 	PrintPlan(w io.Writer, plan []entities.Plate)
 	PrintShopList(w io.Writer, items []entities.Step)
-	PrintConfiguration(w io.Writer)
+	PrintConfiguration(w io.Writer, flags configs.Flag)
 }
 
 func NewPrinter() Printer {
@@ -57,12 +57,13 @@ func (p *printer) PrintShopList(w io.Writer, items []entities.Step) {
 	}
 }
 
-func (p *printer) PrintConfiguration(w io.Writer) {
+func (p *printer) PrintConfiguration(w io.Writer, flags configs.Flag) {
 	_, _ = fmt.Fprintln(w, "")
 	_, _ = fmt.Fprintln(w, "Database connection string:", configs.GetDatabaseConfig().String())
 	ec := configs.GetEmailConfig()
 	_, _ = fmt.Fprintln(w, "Email host:", ec.String())
 	_, _ = fmt.Fprintln(w, "Email recipients:", ec.Recipients)
+	_, _ = fmt.Fprintln(w, "Recipe source:", flags.Source)
 }
 
 func generateTabs(s string, expected int) string {
