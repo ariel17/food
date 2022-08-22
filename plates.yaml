@@ -1,0 +1,40 @@
+---
+plates:
+  - name: Milanesas con puré
+    steps:
+      - name: Carne de nalga para milanesas
+        type: carne
+        amount: 1
+        unit: Kg
+      - name: pan rallado
+        type: harina
+        amount: 1
+        unit: Kg
+      - name: Provenzal
+        type: condimento
+        amount: 1
+        unit: paquete
+      - name: Huevos
+        type: proteína
+        amount: 12
+        unit: huevos
+      - name: Aceite
+        type:
+        amount: 1
+        unit: L
+      - name: Papa
+        type: verdura
+        amount: 1
+        unit: Kg
+      - name: Manteca
+        type: grasa
+        amount: 0.2
+        unit: Kg
+      - name: Nuez moscada
+        type: condimento
+        amount: 1
+        unit: paquete
+      - name: Cebolla de verdeo
+        type: verdura
+        amount: 3
+        unit: cebollas
