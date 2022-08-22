@@ -34,13 +34,13 @@ func main() {
 
 	if *helpFlag {
 		flag.PrintDefaults()
-		os.Exit(1)
+		return
 	}
 
 	printer := services.NewPrinter()
 	if *configFlag{
 		printer.PrintConfiguration(os.Stdout)
-		os.Exit(1)
+		return
 	}
 
 	repository := repositories.NewRepositoryMySQL(db)
@@ -51,7 +51,7 @@ func main() {
 			panic(err)
 		}
 		printer.PrintPlates(os.Stdout, plates)
-		os.Exit(0)
+		return
 	}
 
 	if *planFlag {
@@ -76,6 +76,4 @@ func main() {
 			fmt.Println("Email sent.")
 		}
 	}
-
-	os.Exit(0)
 }
