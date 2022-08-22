@@ -15,12 +15,13 @@ type Flag struct {
 }
 
 func (f *Flag) Parse() {
-	flag.BoolVar(&f.ShowPlates, "show-plates", false, "Shows plates available.")
+	flag.BoolVar(&f.ShowPlates, "show-plates", false, "Shows available plates.")
 	flag.BoolVar(&f.CreatePlan, "create-plan", false, "Creates a new plan.")
 	flag.BoolVar(&f.EnableEmail, "enable-email", false, "Enables email sender.")
 	flag.BoolVar(&f.Help, "help", false, "Shows help.")
 	flag.BoolVar(&f.ShowConfig, "show-config", false, "Shows actual configuration.")
-	flag.StringVar(&f.Source, "source", "yaml", "Source of plates: database, yaml. Default: yaml")
+	flag.StringVar(&f.Source, "source", "yaml", "Source of plates: database, yaml.")
+	flag.Parse()
 
 	if f.Source != "yaml" && f.Source != "database" {
 		panic("Invalid source: use yaml or database.")
