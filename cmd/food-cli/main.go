@@ -1,8 +1,6 @@
 package main
 
 import (
-	"database/sql"
-	"flag"
 	"fmt"
 	"os"
 
@@ -15,37 +13,25 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("mysql", configs.GetDatabaseConfig().String())
-	if err != nil {
-		panic(err)
-	}
-	defer func() {
-		if err := db.Close(); err != nil {
-			panic(err)
-		}
-	}()
 
-	platesFlag := flag.Bool("plates", false, "Shows plates available.")
-	planFlag := flag.Bool("plan", false, "Creates a new plan.")
-	emailFlag := flag.Bool("email", false, "Enables email sender.")
-	helpFlag := flag.Bool("help", false, "Shows help.")
-	configFlag := flag.Bool("config", false, "Shows actual configuration.")
-	flag.Parse()
+	flags := configs.Flag{}
+	flags.Parse()
 
-	if *helpFlag {
-		flag.PrintDefaults()
+	if flags.Help {
+		flags.ShowHelp()
 		return
 	}
 
 	printer := services.NewPrinter()
-	if *configFlag{
-		printer.PrintConfiguration(os.Stdout)
+	if flags.ShowConfig {
+		printer.PrintConfiguration(os.Stdout, flags)
 		return
 	}
 
-	repository := repositories.NewRepositoryMySQL(db)
+	repository := repositories.New(flags.Source)
+	defer repository.Close()
 
-	if *platesFlag {
+	if flags.ShowPlates {
 		plates, err := repository.GetAllPlates()
 		if err != nil {
 			panic(err)
@@ -54,7 +40,7 @@ func main() {
 		return
 	}
 
-	if *planFlag {
+	if flags.CreatePlan {
 		planner := services.NewPlannerService(repository)
 		plan, err := planner.CreatePlan()
 		if err != nil {
@@ -68,7 +54,7 @@ func main() {
 		}
 		printer.PrintShopList(os.Stdout, items)
 
-		if *emailFlag {
+		if flags.EnableEmail {
 			emailSender := email.NewSender(printer)
 			if err := emailSender.Send(plan, items); err != nil {
 				panic(err)
