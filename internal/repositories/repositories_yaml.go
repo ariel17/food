@@ -60,7 +60,7 @@ func (r *repositoryYAML) JoinPlatesSteps(plates []entities.Plate) ([]entities.St
 								Type: s.Type,
 							},
 							Amount: s.Amount,
-							Unit: s.Unit,
+							Unit:   s.Unit,
 						}
 					}
 				}

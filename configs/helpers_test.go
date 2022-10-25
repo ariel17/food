@@ -8,12 +8,12 @@ import (
 )
 
 func TestGetInt(t *testing.T) {
-	tests := []struct{
-		name string
-		key string
+	tests := []struct {
+		name         string
+		key          string
 		mustSetValue bool
-		value string
-		intValue int
+		value        string
+		intValue     int
 	}{
 		{"key exists and is numeric", "TEST_KEY", true, "10", 10},
 		{"key exists and is NOT numeric", "TEST_KEY", true, "xxxyyyzzz", 0},
