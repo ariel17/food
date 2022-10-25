@@ -2,24 +2,24 @@ package repositories
 
 import (
 	"database/sql"
-	"github.com/ariel17/food/internal/entities"
 	"strings"
+
+	"github.com/ariel17/food/configs"
+	"github.com/ariel17/food/internal/entities"
 )
-
-type Repository interface {
-	JoinPlatesSteps(plates []entities.Plate) ([]entities.Step, error)
-	GetStepsForPlate(plate entities.Plate) ([]entities.Step, error)
-	GetAllPlates() ([]entities.Plate, error)
-}
-
-func NewRepositoryMySQL(db *sql.DB) Repository {
-	return &repositoryMySQL{
-		db: db,
-	}
-}
 
 type repositoryMySQL struct {
 	db *sql.DB
+}
+
+func NewRepositoryMySQL() Repository {
+	db, err := sql.Open("mysql", configs.GetDatabaseConfig().String())
+	if err != nil {
+		panic(err)
+	}
+	return &repositoryMySQL{
+		db: db,
+	}
 }
 
 func (r *repositoryMySQL) JoinPlatesSteps(plates []entities.Plate) ([]entities.Step, error) {
@@ -105,9 +105,9 @@ func (r *repositoryMySQL) GetAllPlates() ([]entities.Plate, error) {
 	plates := make([]entities.Plate, 0)
 	for rows.Next() {
 		var (
-			id        int
-			name      string
-			rawOnlyOn *string
+			id          int
+			name        string
+			rawOnlyOn   *string
 			needsMixing bool
 		)
 		if err := rows.Scan(&id, &name, &rawOnlyOn, &needsMixing); err != nil {
@@ -118,11 +118,19 @@ func (r *repositoryMySQL) GetAllPlates() ([]entities.Plate, error) {
 			onlyOn = *rawOnlyOn
 		}
 		plates = append(plates, entities.Plate{
-			ID:     id,
-			Name:   name,
-			OnlyOn: onlyOn,
+			ID:          id,
+			Name:        name,
+			OnlyOn:      onlyOn,
 			NeedsMixing: needsMixing,
 		})
 	}
 	return plates, nil
+}
+
+func (r *repositoryMySQL) Close() {
+	if r.db != nil {
+		if err := r.db.Close(); err != nil {
+			panic(err)
+		}
+	}
 }
