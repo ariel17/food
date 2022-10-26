@@ -1,6 +1,7 @@
 ---
 plates:
-  - name: Milanesas con puré
+  - name: Milanesa
+    type: main
     steps:
       - name: Carne de nalga para milanesas
         type: carne
@@ -20,8 +21,11 @@ plates:
         unit: huevos
       - name: Aceite
         type:
-        amount: 1
+        amount: 0.3
         unit: L
+  - name: Puré
+    type: side
+    steps:
       - name: Papa
         type: verdura
         amount: 1
@@ -32,7 +36,7 @@ plates:
         unit: Kg
       - name: Nuez moscada
         type: condimento
-        amount: 1
+        amount: 0.1
         unit: paquete
       - name: Cebolla de verdeo
         type: verdura
