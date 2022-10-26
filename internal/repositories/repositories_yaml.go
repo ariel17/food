@@ -16,6 +16,7 @@ type repositoryYAML struct {
 	Plates []struct {
 		Name   string `yaml:"name"`
 		OnlyOn string `yaml:"only_on"`
+		Type   string `yaml:"type"`
 		Steps  []struct {
 			Name   string  `yaml:"name"`
 			Type   string  `yaml:"type"`
@@ -98,6 +99,7 @@ func (r *repositoryYAML) GetAllPlates() ([]entities.Plate, error) {
 	for _, p := range r.Plates {
 		plates = append(plates, entities.Plate{
 			Name:   p.Name,
+			Type:   p.Type,
 			OnlyOn: p.OnlyOn,
 		})
 	}
